@@ -11,11 +11,13 @@ app.post("/resolve", async (req, res) => {
   try {
     const browser = await puppeteer.launch({
       headless: "new",
-      args: ["--no-sandbox", "--disable-setuid-sandbox"]
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      timeout: 60000,
+      executablePath: process.env.CHROME_PATH || undefined
     });
 
     const page = await browser.newPage();
-    await page.goto(url, { waitUntil: "networkidle2", timeout: 15000 });
+    await page.goto(url, { waitUntil: "networkidle2", timeout: 60000  });
 
     const finalUrl = page.url();
 
